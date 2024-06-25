@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.6//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_6.dtd'>
+<nta>
+	<declaration>// Place global declarations here.
+chan Move, Obstacle_detected, Obstacle_not_detected, Line_detected, Line_not_detected, Car_mov_fwd, Car_stops,Car_reroutes,Push_obstacle,if_Red,if_blue;</declaration>
+	<template>
+		<name>Obstacle</name>
+		<location id="id0" x="-382" y="-127">
+			<name x="-450" y="-187">Obstacle_Free_State</name>
+		</location>
+		<location id="id1" x="-111" y="-41">
+			<name x="-229" y="-51">Start</name>
+		</location>
+		<location id="id2" x="229" y="-42">
+			<name x="219" y="-76">Color_Detection_State</name>
+		</location>
+		<location id="id3" x="475" y="153">
+			<name x="465" y="119">Blue_Obstacle</name>
+		</location>
+		<location id="id4" x="127" y="144">
+			<name x="-1" y="110">Red_Obstacle</name>
+		</location>
+		<location id="id5" x="-118" y="305">
+			<name x="-187" y="348">Reroute_State</name>
+		</location>
+		<init ref="id1"/>
+		<transition id="id6">
+			<source ref="id3"/>
+			<target ref="id5"/>
+			<label kind="synchronisation" x="239" y="238">Push_obstacle!</label>
+			<nail x="221" y="357"/>
+		</transition>
+		<transition id="id7">
+			<source ref="id4"/>
+			<target ref="id5"/>
+		</transition>
+		<transition id="id8">
+			<source ref="id5"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="-364" y="72">Obstacle_not_detected!</label>
+		</transition>
+		<transition id="id9">
+			<source ref="id2"/>
+			<target ref="id3"/>
+			<label kind="synchronisation" x="247" y="39">if_blue!</label>
+		</transition>
+		<transition id="id10">
+			<source ref="id2"/>
+			<target ref="id4"/>
+			<label kind="synchronisation" x="59" y="35">if_Red!</label>
+		</transition>
+		<transition id="id11">
+			<source ref="id1"/>
+			<target ref="id2"/>
+			<label kind="synchronisation" x="-18" y="-25">Obstacle_detected!</label>
+		</transition>
+		<transition id="id12">
+			<source ref="id0"/>
+			<target ref="id1"/>
+			<label kind="synchronisation" x="-263" y="-110">Car_mov_fwd!</label>
+		</transition>
+	</template>
+	<template>
+		<name>Line_detection</name>
+		<location id="id13" x="-85" y="-110">
+			<name x="-85" y="-153">Start</name>
+		</location>
+		<location id="id14" x="187" y="42">
+			<name x="177" y="8">Offroad_State</name>
+		</location>
+		<location id="id15" x="-255" y="-323">
+			<name x="-314" y="-357">On_Road_State</name>
+		</location>
+		<location id="id16" x="-297" y="-17">
+			<name x="-425" y="-17">Reroute_State</name>
+		</location>
+		<init ref="id13"/>
+		<transition id="id17">
+			<source ref="id16"/>
+			<target ref="id15"/>
+			<label kind="synchronisation" x="-408" y="-161">Line_detected!</label>
+		</transition>
+		<transition id="id18">
+			<source ref="id14"/>
+			<target ref="id16"/>
+			<label kind="synchronisation" x="-136" y="25">Car_stops!</label>
+		</transition>
+		<transition id="id19">
+			<source ref="id15"/>
+			<target ref="id13"/>
+			<label kind="synchronisation" x="-178" y="-255">Car_mov_fwd!</label>
+		</transition>
+		<transition id="id20">
+			<source ref="id13"/>
+			<target ref="id14"/>
+			<label kind="synchronisation" x="25" y="-68">Line_not_detected!</label>
+		</transition>
+	</template>
+	<template>
+		<name x="5" y="5">Car</name>
+		<declaration>// Place local declarations here.
+</declaration>
+		<location id="id21" x="-348" y="51">
+			<name x="-358" y="17">Offroad_State</name>
+		</location>
+		<location id="id22" x="705" y="34">
+			<name x="731" y="26">Color_Detection_State</name>
+		</location>
+		<location id="id23" x="263" y="-204">
+			<name x="253" y="-238">Start</name>
+		</location>
+		<location id="id24" x="170" y="263">
+			<name x="160" y="229">Reroute_state</name>
+		</location>
+		<location id="id25" x="510" y="153">
+			<name x="500" y="119">Red_obstacle</name>
+		</location>
+		<location id="id26" x="841" y="187">
+			<name x="831" y="153">Blue_obstacle</name>
+		</location>
+		<location id="id27" x="68" y="110">
+			<name x="58" y="76">On_Road_State</name>
+		</location>
+		<location id="id28" x="306" y="68">
+			<name x="296" y="34">Obstacle_Free_State</name>
+		</location>
+		<init ref="id23"/>
+		<transition id="id29">
+			<source ref="id28"/>
+			<target ref="id23"/>
+			<label kind="synchronisation" x="284" y="-85">Car_mov_fwd?</label>
+		</transition>
+		<transition id="id30">
+			<source ref="id24"/>
+			<target ref="id28"/>
+			<label kind="synchronisation" x="188" y="148">Obstacle_not_detected?</label>
+		</transition>
+		<transition id="id31">
+			<source ref="id27"/>
+			<target ref="id23"/>
+			<label kind="synchronisation" x="86" y="-64">Car_mov_fwd?</label>
+		</transition>
+		<transition id="id32">
+			<source ref="id24"/>
+			<target ref="id27"/>
+			<label kind="synchronisation" x="86" y="169">Line_detected?</label>
+		</transition>
+		<transition id="id33">
+			<source ref="id26"/>
+			<target ref="id24"/>
+			<label kind="synchronisation" x="450" y="195">Push_obstacle?</label>
+		</transition>
+		<transition id="id34">
+			<source ref="id25"/>
+			<target ref="id24"/>
+		</transition>
+		<transition id="id35">
+			<source ref="id22"/>
+			<target ref="id26"/>
+			<label kind="synchronisation" x="723" y="93">if_blue?</label>
+		</transition>
+		<transition id="id36">
+			<source ref="id22"/>
+			<target ref="id25"/>
+			<label kind="synchronisation" x="528" y="76">if_Red?</label>
+		</transition>
+		<transition id="id37">
+			<source ref="id21"/>
+			<target ref="id24"/>
+			<label kind="synchronisation" x="-170" y="119">Car_stops?</label>
+		</transition>
+		<transition id="id38">
+			<source ref="id23"/>
+			<target ref="id22"/>
+			<label kind="synchronisation" x="408" y="-102">Obstacle_detected?</label>
+		</transition>
+		<transition id="id39">
+			<source ref="id23"/>
+			<target ref="id21"/>
+			<label kind="synchronisation" x="-330" y="-93">Line_not_detected?</label>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+carOne=Car();
+LineOne=Line_detection();
+obstacle=Obstacle();
+// List one or more processes to be composed into a system.
+system carOne, LineOne, obstacle;
+    </system>
+	<queries>
+		<query>
+			<formula>A[]not deadlock</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-06-11 23:20:00 +0200">
+			</result>
+		</query>
+	</queries>
+</nta>
